@@ -14,23 +14,13 @@ durata = 20;
 x0 = -1.2; %try -1.4
 v0 = 0;
 
+times = linspace(t0, durata, 1e5);
 
-
-
-% 2. Soluzione numerica usando ode45
-%[tt xv] = ode45(ff,t0+[0 durata],[x0 v0]);
-%xx = xv(:,1);
-%vv = xv(:,2);
-
-
-% Plot del risultato
-figure(3);
-subplot(1,2,1);
 
 
 for i = 1:3
     ff = @(t, xv)[xv(2); -gamma*xv(2) - (k1/m)*xv(1) - (k3(i)/m)*xv(1)^3 + (A/m)*sin(omega * t)];
-    [tt xv] = ode45(ff,t0+[0 durata],[x0 v0]);
+    [tt xv] = ode45(ff,times,[x0 v0]);
     xx = xv(:,1);
     vv = xv(:,2);
     plot(xx, vv);
@@ -40,19 +30,13 @@ for i = 1:3
     i
 end
 
+legendentries = compose('k3 = %d', k3);
+legend(legendentries)
 
-
-
-legend("x","v");
 grid on;
-%ylim([-1 1])
-xlabel('tempo [s]');
-ylabel('x & v');
-%subplot(1,2,2);
-%plot(xx,vv);
-grid on;
-%xlim([-0.2 0.2])
-%ylim([-1 1])
-xlabel('x');
-ylabel('v');
-sgtitle('Forzante non risonante')
+grid minor;
+
+xlabel('x [u.a.]');
+ylabel('v [u.a.]');
+
+title('Distorsioni non lineari - k1 = 10');
