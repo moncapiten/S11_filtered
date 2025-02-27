@@ -1,5 +1,5 @@
 dataPosition = '../../Data/';
-filename = ['bodeNewNew'];
+filename = ['bodeStableState99'];
 %filename = 'AD8031';
 
 mediaposition = '../../Media/';
@@ -40,7 +40,9 @@ p0 = [w0, gam];
 [beta, R3, ~, covbeta] = nlinfit(ff, A, @tf, p0);
 
 % plotting
-figure
+t = tiledlayout(2,2, "TileSpacing", "tight", "Padding", "compact");
+
+ax1 = nexttile([1, 2]);
 errorbar(ff, A, sig_A, 'o')
 hold on
 plot(ff, tf(p0, ff), '--', "Color", "magenta")
@@ -48,14 +50,26 @@ plot(ff, tf(beta, ff), "Color", "red")
 %semilogx(ff, 20*log10(tf(beta, ff)))
 hold off
 
-legend('Data', 'p0', 'Fit', 'Location', 'best', 'Location', 'ne')
+ax2 = nexttile([1, 2]);
+axs = [ax1, ax2];
+plot(ff, repelem(0, length(ff)), '--', "Color", "black");
+hold on
+errorbar(ff, R3, sig_A, 'o')
 
-set(gca, 'XScale','log', 'YScale','log')
 
-grid on;
-grid minor;
 
-title("Bode Diagram - Fit", 'Interpreter', 'latex', 'FontSize', 18);
+legend(ax1, 'Data', 'p0', 'Fit', 'Location', 'best', 'Location', 'ne')
 
-xlabel('f [Hz]', 'Interpreter', 'latex', 'FontSize', 14);
-ylabel('Gain [pure]', 'Interpreter', 'latex', 'FontSize', 14);
+set(ax1, 'XScale','log', 'YScale','log')
+set(ax2, 'XScale','log')
+
+
+grid(axs, 'on');
+grid(axs, 'minor');
+
+title(t, "Bode Diagram - Fit 99%", 'Interpreter', 'latex', 'FontSize', 18);
+
+linkaxes([ax1, ax2], 'x');
+xlabel(ax2, 'f [Hz]', 'Interpreter', 'latex', 'FontSize', 14);
+ylabel(ax1, 'Gain [pure]', 'Interpreter', 'latex', 'FontSize', 14);
+ylabel(ax2, 'Residuals [pure]', 'Interpreter', 'latex', 'FontSize', 14);
