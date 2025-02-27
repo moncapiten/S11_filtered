@@ -1,9 +1,9 @@
 
-data1=readmatrix("es11_fft6rz.txt");
-data2 = readmatrix("es11_fft7rz.txt");
+data1=readmatrix("../Data/pleaseOhPleseGodHelpMeImASheepInNeedOfHisShepard.txt");
+%data2 = readmatrix("es11_fft7rz.txt");
 
-n1=2400;
-f1=6000;
+n1=length(data1(:,1));
+f1=400;
 
 n2 = 2800;
 f2 = 7000;
@@ -26,7 +26,7 @@ yline(f1/3)
 yline(f1/4)
 yline(f1/5)
 
-
+%{
 subtitle('Forzante a 6kHz')
 
 ydata2=linspace(0,f2*2,n2/2+1);
@@ -48,3 +48,5 @@ yline(f2/5)
 subtitle('Forzante a 7kHz')
 
 exportgraphics(gcf,'Colormap2.pdf','ContentType','vector')
+
+%}
