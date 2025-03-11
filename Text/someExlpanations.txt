@@ -1,0 +1,12 @@
+Il sensore possiede svariati pin, oltre le ovvie alimentazioni sono presenti 2 diversi canali I2C, uno su cui l'MPU agisce da Slave con indirizzo 0x68 o 0x69( 0b110100x) e uno, XDA XCL, in cui l'MPU si comporta come master.
+Il pin AD0 rende possibile scegliere l'ultimo bit dell'indirizzo, cambiamento non riflettuto nel registro "whoAmI" e un pin in output che viene usato come interrupt per letture high-g
+
+
+
+
+
+La comunicazione I2C presenta, come sempre, comandi di lettura e scrittura da registri, di cui quelli più importanti sono il 107 e 108, power management, controllano l'accensione e il comportamento di sleep a bassa potenza del dispositivo, e i registri da 59 a 72, che contengono le misure dell'accelerometro, giroscopio e termometro, e il 27 e 28 che controllano il comportamento( fondo scala e self test) di accelerometro e giroscopio.
+
+Altri molto utili sono i registri 117, contenente SAD del sensore senza tuttavia il valore dell'ultimo bit, 104, che triggera un soft-reset delle pipeline dati dei sensori, e da 55 a 58, configurazioni e status degli interrupt, utili per assicurarsi di leggere ogni dato e per sapere se ci si trova in situazioni anomale.
+
+Inoltre sono presenti i registri da 36 a 53 e da 73 a 103 che servono per le comunicazioni I2C con oggetti collegati in cascata all'MPU e non direttamente al dispositivo Master.
