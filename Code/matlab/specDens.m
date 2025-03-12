@@ -1,7 +1,7 @@
-clear all;
+clear vars;
 
 dataPosition = '../../Data/';
-filename = 'noOff';
+filename = 'newSimulation';
 
 rawData = readmatrix(strcat(dataPosition, filename, '.txt'));
 

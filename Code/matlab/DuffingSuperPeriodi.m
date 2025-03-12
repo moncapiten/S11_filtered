@@ -72,7 +72,7 @@ for i = 1:2
     ff = @(t, xv)[xv(2); -gamma*xv(2) - (k1/m)*xv(1) - (k3/m)*xv(1)^3 + (A/m)*sin(omega * t)];
 
     % 2. Soluzione numerica usando ode45
-    [tt xv] = ode45(ff,t0+[0 durata],[x0(i), v0(i)]);
+    [tt, xv] = ode45(ff,t0+[0 durata],[x0(i), v0(i)]);
 
     plot(ax1, tt, xv(:,1));
     plot(ax2, tt, xv(:,2));
