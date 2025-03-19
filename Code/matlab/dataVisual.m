@@ -2,8 +2,10 @@ clear all;
 
 % Data( media) position and name, to retrieve( save) files from( to) the correct position
 dataPosition = '../../Data/';
-filename = 'dataForXYPlot';
+filename = 'newData/newNoOff';
 %filename = 'AD8031';
+
+everyPlot = false;
 
 %mediaposition = '../../Media/';
 %medianame = strcat('bodeRLC-simulation-Qx2');
@@ -14,6 +16,23 @@ rawData = readmatrix(strcat(dataPosition, filename, '.txt'));
 tt = rawData(:, 1);
 ch1 = rawData(:, 2);
 ch2 = rawData(:, 3);
+
+
+if everyPlot
+    L = 8192*2;              % Number of points per period
+    for i = 1:length(tt)/L
+        plot(tt((i-1)*L+1:i*L), ch1((i-1)*L+1:i*L));
+        hold on
+        plot(tt((i-1)*L+1:i*L), ch2((i-1)*L+1:i*L));
+        hold off
+        pause(0.1);
+    end
+end
+
+
+
+
+
 
 % plotting
 
