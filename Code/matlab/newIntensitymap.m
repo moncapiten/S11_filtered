@@ -6,12 +6,37 @@ clearvars;
 
 %filename =  'newData/betterQuantizationStep';   % 0.3 to 0.9 V
 %filename = 'newData/heatMap7khz';   % 0.5 to 0.9 V
-filename = 'newData/heatmap4khz_100Takes';   % 0.3 to 0.9 V
+%filename = 'newData/heatmap4khz_100Takes';   % 0.3 to 0.9 V
 %filename = 'newData/4khz100TakesNarrowRange';   % 0.3 to 0.62 V
+%filename = 'newData/heatmap4khzWideRange100Takes'; % 0 to 0.7 V
+%filename = 'newData/heatmap4khz_150Takes_pinpointRange'; % 0.37 to 0.57 V
+%filename = 'newData/freqHeatMap_0.458V'; % 200 to 1e4 Hz
+%filename = 'newData/freqHeatmap_0.458V_narrowRange' % 3e3 to 6.5e3 Hz
+filename = 'newData/freqHeatMap_300Takes_0.458V_wideRange' % 1e2 to 1e4 Hz - 6 files
+filename = 'newData/freqHeatMap_300Takes_0.458V_narrowRange' % 3e3 to 6.5e3 Hz - 6 files
 dataPosition = '../../Data/';
-rawData = readmatrix(strcat(dataPosition, filename, '.txt'));
+flag_largeFile = true;
+filenumber = 6;
 
+if flag_largeFile
+    for i = 0:filenumber
+        i
+        rawData = readmatrix(strcat(dataPosition, filename, '_', num2str(i), '.txt'));
+        if i == 0
+            temp = rawData;
+        else
+            temp = [temp; rawData];
+        end
+    end
+    rawData = temp;
+else    
+    rawData = readmatrix(strcat(dataPosition, filename, '.txt'));
+end
+
+
+%rawData
 flag_seeAll = false;
+mag = false;
 
 tt = rawData(:, 1);
 ch1 = rawData(:, 2);
@@ -24,7 +49,7 @@ Fs = 1/T               % Sampling frequency
 
 numberOfPeriods = length(tt)/L;
 
-parameter_values = linspace(0.3, 0.62, numberOfPeriods);  % Parameter range
+parameter_values = linspace(3e3, 6.5e3, numberOfPeriods);  % Parameter range
 excitationFrequency = 4000;  % Excitation frequency (Hz)
 
 % Initialize the intensity map
@@ -97,16 +122,32 @@ end
 
 % Plot the intensity map
 figure;
+colormap("turbo");
 imagesc(parameter_values, Fs*(0:(L/2))/L, intensity_map.');
-xlabel('Excitation Signal Amplitude [V]', 'Interpreter', 'latex', 'FontSize', 14);
 ylabel('Frequency [Hz]', 'Interpreter', 'latex', 'FontSize', 14);
-title('FFT Intensity Map', 'Interpreter', 'latex', 'FontSize', 18);
+title('FFT Intensity Map - 0.458V Excitation - Narrow Range', 'Interpreter', 'latex', 'FontSize', 18);
 colorbar;
 axis xy;  % Ensure the y-axis is correctly oriented
-yline(excitationFrequency);
-yline(excitationFrequency/2);
-yline(excitationFrequency/3);
-yline(excitationFrequency/4);
-yline(excitationFrequency/5);
+%plot(parameter_values, .5*parameter_values)
+colors = ["cyan", "green", "yellow", "red", "magenta"];
+
+hold on;
+for i = 1:length(colors)
+    if mag
+        yline(excitationFrequency/i, 'Color', colors(i));
+        if i == 1
+            xlabel('Excitation Signal Amplitude [V]', 'Interpreter', 'latex', 'FontSize', 14);
+        end
+    else
+        plot(parameter_values, 1/i * parameter_values, "Color", colors(i));
+        if i == 1
+            xlabel('Excitation Signal Frequency [Hz]', 'Interpreter', 'latex', 'FontSize', 14);
+        end
+    end
+end
+hold off;
+
 ylim([0, 1e4]);  % Limit the y-axis to the first 10 kHz
+
+
 
