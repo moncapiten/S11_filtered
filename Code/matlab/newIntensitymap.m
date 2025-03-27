@@ -9,14 +9,14 @@ clearvars;
 %filename = 'newData/heatmap4khz_100Takes';   % 0.3 to 0.9 V
 %filename = 'newData/4khz100TakesNarrowRange';   % 0.3 to 0.62 V
 %filename = 'newData/heatmap4khzWideRange100Takes'; % 0 to 0.7 V
-%filename = 'newData/heatmap4khz_150Takes_pinpointRange'; % 0.37 to 0.57 V
+filename = 'newData/heatmap4khz_150Takes_pinpointRange'; % 0.37 to 0.57 V
 %filename = 'newData/freqHeatMap_0.458V'; % 200 to 1e4 Hz
 %filename = 'newData/freqHeatmap_0.458V_narrowRange' % 3e3 to 6.5e3 Hz
-filename = 'newData/freqHeatMap_300Takes_0.458V_wideRange' % 1e2 to 1e4 Hz - 6 files
-filename = 'newData/freqHeatMap_300Takes_0.458V_narrowRange' % 3e3 to 6.5e3 Hz - 6 files
+%filename = 'newData/freqHeatMap_300Takes_0.458V_wideRange' % 1e2 to 1e4 Hz - 6 files
+%filename = 'newData/freqHeatMap_300Takes_0.458V_narrowRange' % 3e3 to 6.5e3 Hz - 6 files
 dataPosition = '../../Data/';
 flag_largeFile = true;
-filenumber = 6;
+filenumber = 3;
 
 if flag_largeFile
     for i = 0:filenumber
@@ -35,7 +35,9 @@ end
 
 
 %rawData
-flag_seeAll = false;
+flag_seeAll = true;
+flag_seeSome = false;
+which_parameter_value = 0.457;
 mag = false;
 
 tt = rawData(:, 1);
@@ -49,7 +51,7 @@ Fs = 1/T               % Sampling frequency
 
 numberOfPeriods = length(tt)/L;
 
-parameter_values = linspace(3e3, 6.5e3, numberOfPeriods);  % Parameter range
+parameter_values = linspace(0.37, 0.57, numberOfPeriods);  % Parameter range
 excitationFrequency = 4000;  % Excitation frequency (Hz)
 
 % Initialize the intensity map
@@ -74,7 +76,8 @@ for i = 1:length(tt)/L
     % Store the FFT magnitude in the intensity map
     intensity_map(i, :) = P1;
 
-    if flag_seeAll
+%    A ==
+    if flag_seeAll || (flag_seeSome && A > which_parameter_value - 0.001 && A < which_parameter_value + 0.001)
         figure;
         t = tiledlayout(2, 1, "TileSpacing", "tight", "Padding", "compact");
         ax1 = nexttile;
