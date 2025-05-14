@@ -9,14 +9,14 @@ clearvars;
 %filename = 'newData/heatmap4khz_100Takes';   % 0.3 to 0.9 V
 %filename = 'newData/4khz100TakesNarrowRange';   % 0.3 to 0.62 V
 %filename = 'newData/heatmap4khzWideRange100Takes'; % 0 to 0.7 V
-filename = 'newData/heatmap4khz_150Takes_pinpointRange'; % 0.37 to 0.57 V
+%filename = 'newData/heatmap4khz_150Takes_pinpointRange'; % 0.37 to 0.57 V
 %filename = 'newData/freqHeatMap_0.458V'; % 200 to 1e4 Hz
 %filename = 'newData/freqHeatmap_0.458V_narrowRange' % 3e3 to 6.5e3 Hz
 %filename = 'newData/freqHeatMap_300Takes_0.458V_wideRange' % 1e2 to 1e4 Hz - 6 files
-%filename = 'newData/freqHeatMap_300Takes_0.458V_narrowRange' % 3e3 to 6.5e3 Hz - 6 files
+filename = 'newData/freqHeatMap_300Takes_0.458V_narrowRange' % 3e3 to 6.5e3 Hz - 6 files
 dataPosition = '../../Data/';
 flag_largeFile = true;
-filenumber = 3;
+filenumber = 6;
 
 if flag_largeFile
     for i = 0:filenumber
@@ -35,7 +35,7 @@ end
 
 
 %rawData
-flag_seeAll = true;
+flag_seeAll = false;
 flag_seeSome = false;
 which_parameter_value = 0.457;
 mag = false;
